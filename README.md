@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# METRIQUE — متجر الساعات الفاخرة
 
-## Getting Started
+موقع تجارة إلكترونية مبني بـ Next.js (React) + TypeScript + Tailwind، مبني على التصميم المعتمد (نموذج 2 — الأناقة العصرية، كحلي وأزرق).
 
-First, run the development server:
+## التشغيل محليًا
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev     # وضع التطوير: http://localhost:3000
+# أو
+npm run build && npm start   # وضع الإنتاج
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> ملاحظة: ملفات `data/admins.json` و`data/customers.json` (فيها بيانات دخول حقيقية) غير مرفوعة على GitHub عمدًا — الموقع يستخدم `data/admins.example.json` تلقائيًا كحساب مالك افتراضي (admin / changeme123) إلى أن تضيف أو تعدّل مشرفًا من صفحة "إدارة المشرفين"، وحينها يُنشئ الملف الحقيقي بنفسه. تقدر أيضًا تنسخ `admins.example.json` إلى `admins.json` يدويًا وتغيّر الاسم/كلمة المرور مباشرة.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## لوحة التحكم (Admin)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+الرابط: `/admin`
 
-## Learn More
+**حساب المالك الافتراضي:**
+- الاسم: `admin`
+- كلمة المرور: `changeme123`
 
-To learn more about Next.js, take a look at the following resources:
+غيّرها من ملف `data/admins.json` مباشرة (أو أنشئ حساب مالك جديد وامسح القديم).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**نظام صلاحيات حقيقي متعدد المستخدمين:**
+- **المالك**: صلاحيات كاملة تلقائيًا على كل الأقسام، ولا يمكن حذفه أو تقييده.
+- من صفحة **إدارة المشرفين** (`/admin/team`، للمالك فقط افتراضيًا)، ينشئ المالك حسابات مشرفين جدد ويحدد بالضبط أي أقسام يصل لها كل واحد: المنتجات، الطلبات، العروض والتخفيضات، المظهر والألوان، الإحصائيات، إدارة المشرفين، الإعدادات.
+- التقييد فعلي على مستوى الصفحة والـ API، مو مجرد إخفاء رابط — مشرف بدون صلاحية "الطلبات" مثلاً ما يقدر يفتح `/admin/orders` حتى لو كتب الرابط يدويًا.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**الأقسام المتاحة:**
+- لوحة القيادة: إحصائيات فورية (حسب صلاحية المستخدم) — عدد الطلبات، المنتجات، الإيرادات، إجمالي الزيارات وزيارات اليوم، رسم بياني لآخر 7 أيام، وأكثر/أقل 3 منتجات زيارة.
+- المنتجات: إضافة/تعديل/حذف.
+- الطلبات: تغيير الحالة (بانتظار الدفع، قيد التجهيز، تم الشحن...).
+- العروض والتخفيضات: تفعيل خصم بنسبة مئوية على أي منتج مع اسم عرض، ويظهر فورًا على الموقع مع شارة وسعر مشطوب.
+- المظهر والألوان: تُطبَّق على الموقع فورًا.
+- الإعدادات: حالة الربط مع بوابات الدفع والتوصيل.
 
-## Deploy on Vercel
+> ملاحظة أمان: كلمات المرور محفوظة كنص عادي في `data/admins.json` (ونفس الشيء لحسابات العملاء في `data/customers.json`) — مقبول للتجربة، لكن قبل الإطلاق الفعلي لازم تُشفّر (bcrypt أو ما شابه) قبل ما توصل بيانات حقيقية. نقطة التعديل الوحيدة هي `src/lib/auth.ts` و`src/lib/admins.ts` (للأدمن) و`src/lib/customer-auth.ts` و`src/lib/customers.ts` (للعملاء).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## حساب العميل (تسجيل الدخول في المتجر)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+الرابط: `/account`
+
+صفحة تسجيل دخول/إنشاء حساب للعملاء (منفصلة تمامًا عن حساب المالك/الأدمن) بتصميم فاخر يتماشى مع هوية المتجر — بريد إلكتروني وكلمة مرور، مع تبويب لإنشاء حساب جديد (الاسم، البريد، الجوال، كلمة المرور). الجلسة محفوظة بكوكي منفصل (`customer_session`) عن جلسة الأدمن، والبيانات في `data/customers.json`. هذا حاليًا حساب عميل بسيط (تسجيل دخول/خروج) بدون طلبات أو عنوان محفوظ — يمكن ربطه لاحقًا بصفحة الطلبات/السلة عند الحاجة.
+
+## الحالة الحالية لكل جزء
+
+| الجزء | الحالة |
+|---|---|
+| الواجهة الرئيسية (هيرو الساعة المتفككة/المتجمّعة، الأقسام، المنتجات) | ✅ فعلي وجاهز |
+| المظهر والألوان القابلة للتعديل من لوحة التحكم | ✅ فعلي (محفوظة في `data/theme.json`) |
+| المنتجات (عرض + إدارة) | ✅ فعلي (محفوظة في `data/products.json`) |
+| الطلبات وتتبع حالتها | ✅ فعلي (محفوظة في `data/orders.json`) |
+| الدفع عبر تابي (Tabby) | 🟡 هيكلة جاهزة، تعمل بوضع تجريبي حتى تتوفر مفاتيح API — `src/lib/payments/tabby.ts` |
+| الدفع عبر تمارا (Tamara) | 🟡 نفس الشيء — `src/lib/payments/tamara.ts` |
+| الدفع بالبطاقة (مدى/فيزا/ماستركارد) | 🟡 هيكلة جاهزة لأي بوابة (يُفضّل Moyasar لدعم مدى) — `src/lib/payments/card.ts` |
+| التحويل البنكي | ✅ فعلي جزئيًا: يعرض بيانات الحساب ويحتاج تأكيد يدوي من الأدمن — `src/lib/payments/bank-transfer.ts` |
+| خدمة التوصيل | 🟡 هيكلة جاهزة بوضع تجريبي — `src/lib/delivery.ts` |
+| حساب العميل (تسجيل دخول/إنشاء حساب في المتجر) | ✅ فعلي (محفوظ في `data/customers.json`) — `/account` |
+
+**"وضع تجريبي" يعني:** كل شيء يعمل الآن بالكامل من ناحية تجربة المستخدم (checkout كامل، تتبع طلب، إلخ) لكن بدون اتصال حقيقي بأي بوابة خارجية. بمجرد توفر حسابات تابي/تمارا/بوابة البطاقات/شركة التوصيل، تُضاف مفاتيحها كمتغيرات بيئة (`.env.local`) بنفس الأسماء الموجودة في كل ملف، ويتحول العمل تلقائيًا للوضع الحقيقي دون تعديل بقية الموقع.
+
+## متغيرات البيئة (`.env.local`)
+
+```
+ADMIN_PASSWORD=            # كلمة مرور لوحة التحكم
+ADMIN_SESSION_SECRET=      # نص عشوائي طويل لتوقيع الجلسة
+
+TABBY_SECRET_KEY=
+TAMARA_API_TOKEN=
+CARD_GATEWAY_SECRET_KEY=
+DELIVERY_PROVIDER_API_KEY=
+```
+
+## الخطوات التالية المقترحة
+
+1. اسم المتجر النهائي والشعار (حاليًا METRIQUE كاسم مبدئي من نماذج التصميم — عدّله من لوحة التحكم ← المظهر والألوان).
+2. فتح حسابات تابي وتمارا وبوابة البطاقات وربط مفاتيحها.
+3. اختيار شركة التوصيل الفعلية وربط API الخاص بها.
+4. الانتقال من ملفات JSON (`data/*.json`) إلى قاعدة بيانات حقيقية عند الحاجة لحجم بيانات أكبر أو عدة مستخدمين إداريين.
+5. صفحات تفاصيل المنتج والسلة والدفع الكاملة (حاليًا الصفحة الرئيسية وواجهة الإدارة جاهزتان؛ صفحات `/store/[id]`، `/cart`، `/checkout` هي الخطوة التالية في البناء).

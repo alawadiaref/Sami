@@ -1,0 +1,11 @@
+[
+  {
+    "id": "owner-1",
+    "name": "اسم المالك",
+    "username": "admin",
+    "password": "changeme123",
+    "role": "owner",
+    "permissions": [],
+    "createdAt": "2026-01-01T00:00:00.000Z"
+  }
+]

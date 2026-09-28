@@ -1,0 +1,11 @@
+{
+  "storeName": "METRIQUE",
+  "colors": {
+    "bg": "#0d1120",
+    "panel": "#111731",
+    "panel2": "#161d3a",
+    "accent": "#3d5cff",
+    "text": "#ffffff",
+    "textMuted": "rgba(255,255,255,0.6)"
+  }
+}
