@@ -1,10 +1,13 @@
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ImageCarousel from "@/components/ImageCarousel";
+import AddToCartButton from "@/components/AddToCartButton";
 import { getTheme } from "@/lib/theme";
-import { getProduct } from "@/lib/products";
+import { getProduct, getProducts } from "@/lib/products";
 import { formatPrice, discountedPrice } from "@/lib/products-types";
 import { recordProductView } from "@/lib/analytics";
+import { getContent } from "@/lib/content";
 
 export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -13,7 +16,11 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
 
   recordProductView(product.id);
   const theme = getTheme();
+  const content = getContent();
   const hasOffer = product.offerActive && product.discountPercent;
+  const related = getProducts()
+    .filter((p) => p.id !== product.id && p.tag === product.tag)
+    .slice(0, 4);
 
   return (
     <main style={{ background: "var(--color-bg)", minHeight: "100vh" }}>
@@ -21,24 +28,16 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
         <Navbar storeName={theme.storeName} />
       </div>
 
-      <div style={{ display: "flex", gap: 60, padding: "40px 64px 100px", flexWrap: "wrap" }}>
-        <div
-          style={{
-            flex: "1 1 400px",
-            height: 460,
-            background: "linear-gradient(150deg, var(--color-panel-2), #0b0f1e)",
-            borderRadius: 10,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <svg width="260" height="260" viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="38" fill="none" stroke="var(--color-accent)" strokeWidth="2.5" />
-            <circle cx="50" cy="50" r="28" fill="#141b30" stroke="rgba(255,255,255,.25)" />
-            <line x1="50" y1="50" x2="50" y2="30" stroke="var(--color-accent)" strokeWidth="2" />
-            <line x1="50" y1="50" x2="64" y2="56" stroke="#fff" strokeWidth="2" />
-          </svg>
+      <div style={{ display: "flex", gap: 60, padding: "40px 64px 60px", flexWrap: "wrap" }}>
+        <div style={{ flex: "1 1 400px" }}>
+          <ImageCarousel
+            images={product.images ?? []}
+            name={product.carouselName}
+            speedMs={product.carouselSpeedMs ?? 3500}
+            transition={product.carouselTransition ?? "fade"}
+            height={460}
+            rounded={10}
+          />
         </div>
 
         <div style={{ flex: "1 1 320px" }}>
@@ -61,13 +60,32 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
             {product.stock > 0 ? `متوفر (${product.stock} قطعة)` : "غير متوفر حاليًا"}
           </div>
 
-          <button className="btn-primary" disabled={product.stock === 0}>
-            إضافة إلى السلة
-          </button>
+          <AddToCartButton product={product} />
         </div>
       </div>
 
-      <Footer storeName={theme.storeName} />
+      {related.length > 0 && (
+        <div style={{ padding: "0 64px 80px" }}>
+          <div style={{ fontSize: 20, fontWeight: 900, marginBottom: 24 }}>قد يعجبك أيضًا</div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 20 }}>
+            {related.map((p) => (
+              <a
+                key={p.id}
+                href={`/store/${p.id}`}
+                style={{ background: "var(--color-panel)", borderRadius: 6, overflow: "hidden", display: "block" }}
+              >
+                <ImageCarousel images={p.images ?? []} height={150} rounded={0} speedMs={0} />
+                <div style={{ padding: 14 }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 4 }}>{p.name}</div>
+                  <div style={{ fontSize: 13, fontWeight: 900 }}>{formatPrice(discountedPrice(p))}</div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <Footer storeName={theme.storeName} social={content.socialLinks} />
     </main>
   );
 }

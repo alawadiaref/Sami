@@ -21,7 +21,7 @@ export default function AccountClient({
   const [customer, setCustomer] = useState<InitialCustomer | null>(initialCustomer);
   const [mode, setMode] = useState<Mode>("login");
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
-  const [registerForm, setRegisterForm] = useState({ name: "", email: "", phone: "", password: "" });
+  const [registerForm, setRegisterForm] = useState({ name: "", email: "", phone: "", password: "", city: "", address: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -186,6 +186,22 @@ export default function AccountClient({
                     required
                     value={registerForm.phone}
                     onChange={(e) => setRegisterForm({ ...registerForm, phone: e.target.value })}
+                    style={inputStyle}
+                  />
+                </label>
+                <label style={labelStyle}>
+                  المدينة
+                  <input
+                    value={registerForm.city}
+                    onChange={(e) => setRegisterForm({ ...registerForm, city: e.target.value })}
+                    style={inputStyle}
+                  />
+                </label>
+                <label style={labelStyle}>
+                  العنوان التفصيلي (الحي، الشارع، رقم المبنى)
+                  <input
+                    value={registerForm.address}
+                    onChange={(e) => setRegisterForm({ ...registerForm, address: e.target.value })}
                     style={inputStyle}
                   />
                 </label>

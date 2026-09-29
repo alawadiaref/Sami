@@ -1,11 +1,11 @@
-const stats = [
+const defaultStats = [
   { value: "+120", label: "موديل متاح" },
   { value: "5 سنوات", label: "ضمان شامل" },
   { value: "100%", label: "أصلية موثقة" },
   { value: "24 ساعة", label: "شحن سريع" },
 ];
 
-export default function StatsStrip() {
+export default function StatsStrip({ stats = defaultStats }: { stats?: { value: string; label: string }[] }) {
   return (
     <div
       style={{

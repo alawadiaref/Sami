@@ -39,3 +39,4 @@ yarn-error.log*
 # templates the app falls back to. See README for setup.
 /data/admins.json
 /data/customers.json
+/data/carts.json

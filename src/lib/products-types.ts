@@ -10,6 +10,14 @@ export interface Product {
   discountPercent?: number; // 0-100
   offerLabel?: string;
   offerActive?: boolean;
+  // Product image gallery (data URIs or absolute URLs). images[0] is used as
+  // the card thumbnail everywhere a single image is needed.
+  images?: string[];
+  // Per-product gallery carousel settings — the owner can rename it, change
+  // how fast it auto-advances, and how it transitions between images.
+  carouselName?: string;
+  carouselSpeedMs?: number; // auto-advance interval; 0 disables auto-advance
+  carouselTransition?: "fade" | "slide";
 }
 
 export function formatPrice(price: number): string {

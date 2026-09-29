@@ -1,3 +1,5 @@
+import CartLink from "./CartLink";
+
 export default function Navbar({ storeName }: { storeName: string }) {
   return (
     <div
@@ -22,18 +24,7 @@ export default function Navbar({ storeName }: { storeName: string }) {
       </nav>
       <div style={{ display: "flex", gap: 20, fontSize: 14, alignItems: "center" }}>
         <a href="/account">تسجيل الدخول</a>
-        <a
-          href="/cart"
-          style={{
-            background: "var(--color-accent)",
-            padding: "9px 18px",
-            borderRadius: 2,
-            color: "var(--color-bg)",
-            fontWeight: 700,
-          }}
-        >
-          السلة
-        </a>
+        <CartLink />
       </div>
     </div>
   );

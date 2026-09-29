@@ -1,5 +1,7 @@
 {
-  "totalVisits": 0,
-  "dailyVisits": {},
+  "totalVisits": 1,
+  "dailyVisits": {
+    "2026-09-29": 1
+  },
   "productViews": {}
 }

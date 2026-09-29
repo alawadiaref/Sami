@@ -33,18 +33,37 @@ export function emailTaken(email: string): boolean {
   return !!findCustomerByEmail(email);
 }
 
-export function createCustomer(data: { name: string; email: string; phone: string; password: string }): Customer {
+export function createCustomer(data: {
+  name: string;
+  email: string;
+  phone: string;
+  password: string;
+  city?: string;
+  address?: string;
+}): Customer {
   const customers = getCustomers();
   const customer: Customer = {
     id: `customer-${Date.now()}`,
     name: data.name,
     email: data.email,
     phone: data.phone,
+    city: data.city,
+    address: data.address,
     password: data.password,
     createdAt: new Date().toISOString(),
   };
   customers.push(customer);
   saveCustomers(customers);
+  return customer;
+}
+
+export function updateCustomer(id: string, data: Partial<Omit<Customer, "id" | "createdAt" | "password">>): Customer | undefined {
+  const customers = getCustomers();
+  const customer = customers.find((c) => c.id === id);
+  if (customer) {
+    Object.assign(customer, data);
+    saveCustomers(customers);
+  }
   return customer;
 }
 

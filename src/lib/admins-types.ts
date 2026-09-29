@@ -3,6 +3,7 @@ export type Permission =
   | "orders"
   | "offers"
   | "theme"
+  | "content"
   | "analytics"
   | "team"
   | "settings";
@@ -12,6 +13,7 @@ export const ALL_PERMISSIONS: { key: Permission; label: string }[] = [
   { key: "orders", label: "الطلبات" },
   { key: "offers", label: "العروض والتخفيضات" },
   { key: "theme", label: "المظهر والألوان" },
+  { key: "content", label: "محتوى الموقع" },
   { key: "analytics", label: "الإحصائيات" },
   { key: "team", label: "إدارة المشرفين" },
   { key: "settings", label: "الإعدادات" },

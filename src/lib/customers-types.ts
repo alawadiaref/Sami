@@ -3,6 +3,8 @@ export interface Customer {
   name: string;
   email: string;
   phone: string;
+  city?: string;
+  address?: string; // street/building/apartment details, used for delivery
   password: string; // plaintext for now — see README security note (same as admins.json)
   createdAt: string;
 }

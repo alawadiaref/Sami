@@ -1,13 +1,27 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface Particle {
   id: number;
   x: number;
   y: number;
+}
+
+// The dial's hour/minute hands track real time in Mecca (Asia/Riyadh, UTC+3,
+// no DST) rather than any local/browser timezone.
+function getMeccaTime() {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Asia/Riyadh",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    hour12: false,
+  }).formatToParts(new Date());
+  const get = (type: string) => Number(parts.find((p) => p.type === type)?.value ?? 0);
+  return { hours: get("hour"), minutes: get("minute"), seconds: get("second") };
 }
 
 export default function AdminLoginPage() {
@@ -17,8 +31,19 @@ export default function AdminLoginPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  // Starts null so server-rendered markup and the first client render match
+  // exactly (both show the placeholder); the real, ticking value is only
+  // ever computed client-side, after mount.
+  const [meccaTime, setMeccaTime] = useState<{ hours: number; minutes: number; seconds: number } | null>(null);
+  useEffect(() => {
+    setMeccaTime(getMeccaTime());
+    const t = setInterval(() => setMeccaTime(getMeccaTime()), 1000);
+    return () => clearInterval(t);
+  }, []);
+  const hourAngle = meccaTime ? ((meccaTime.hours % 12) + meccaTime.minutes / 60) * 30 : 0;
+  const minuteAngle = meccaTime ? (meccaTime.minutes + meccaTime.seconds / 60) * 6 : 0;
+
   const totalChars = username.length + password.length;
-  const handAngle = (totalChars * 17) % 360;
 
   const [particles, setParticles] = useState<Particle[]>([]);
   const particleId = useRef(0);
@@ -104,8 +129,8 @@ export default function AdminLoginPage() {
               stroke="var(--color-accent)"
               strokeWidth="3"
               strokeLinecap="round"
-              animate={{ rotate: handAngle }}
-              transition={{ type: "spring", stiffness: 120, damping: 12 }}
+              animate={{ rotate: hourAngle }}
+              transition={{ type: "tween", ease: "linear", duration: 0.3 }}
               style={{ transformOrigin: "90px 90px" }}
             />
             <motion.line
@@ -116,8 +141,8 @@ export default function AdminLoginPage() {
               stroke="#fff"
               strokeWidth="2"
               strokeLinecap="round"
-              animate={{ rotate: -handAngle * 2.4 }}
-              transition={{ type: "spring", stiffness: 100, damping: 10 }}
+              animate={{ rotate: minuteAngle }}
+              transition={{ type: "tween", ease: "linear", duration: 0.3 }}
               style={{ transformOrigin: "90px 90px" }}
             />
             <circle cx="90" cy="90" r="4" fill="var(--color-accent)" />
@@ -149,6 +174,12 @@ export default function AdminLoginPage() {
         <div style={{ textAlign: "center", marginTop: -12 }}>
           <div style={{ fontSize: 13, letterSpacing: 3, color: "var(--color-accent)", fontWeight: 700 }}>METRIQUE</div>
           <div style={{ fontSize: 20, fontWeight: 900, marginTop: 4 }}>لوحة تحكم المالك</div>
+          <div style={{ fontSize: 11, color: "var(--color-text-muted)", marginTop: 6, letterSpacing: 1 }} dir="ltr">
+            {meccaTime
+              ? `${String(meccaTime.hours).padStart(2, "0")}:${String(meccaTime.minutes).padStart(2, "0")}:${String(meccaTime.seconds).padStart(2, "0")}`
+              : "--:--:--"}{" "}
+            — توقيت مكة المكرمة
+          </div>
         </div>
 
         <form

@@ -16,6 +16,7 @@ const navItems: { href: string; label: string; icon: string; permission?: Permis
   { href: "/admin/orders", label: "الطلبات", icon: "▤", permission: "orders" },
   { href: "/admin/offers", label: "العروض والتخفيضات", icon: "%", permission: "offers" },
   { href: "/admin/theme", label: "المظهر والألوان", icon: "◐", permission: "theme" },
+  { href: "/admin/content", label: "محتوى الموقع", icon: "✎", permission: "content" },
   { href: "/admin/team", label: "إدارة المشرفين", icon: "☖", permission: "team" },
   { href: "/admin/settings", label: "الإعدادات", icon: "⚙", permission: "settings" },
 ];

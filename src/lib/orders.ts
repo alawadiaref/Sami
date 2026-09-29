@@ -13,6 +13,10 @@ export function getOrders(): Order[] {
   return JSON.parse(fs.readFileSync(ORDERS_PATH, "utf-8"));
 }
 
+export function getOrder(id: string): Order | undefined {
+  return getOrders().find((o) => o.id === id);
+}
+
 export function saveOrders(orders: Order[]): void {
   fs.writeFileSync(ORDERS_PATH, JSON.stringify(orders, null, 2), "utf-8");
 }

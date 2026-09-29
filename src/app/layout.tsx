@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { getTheme, themeToCssVars } from "@/lib/theme";
+import { CartProvider } from "@/components/CartContext";
+import ChatWidget from "@/components/ChatWidget";
+import { getContent } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "METRIQUE — الوقت، بشكله الأكثر تطورًا",
@@ -13,6 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const theme = getTheme();
+  const content = getContent();
   return (
     <html lang="ar" dir="rtl">
       <head>
@@ -23,7 +27,10 @@ export default function RootLayout({
       </head>
       <body style={{ ["--theme-vars" as string]: "" }}>
         <style dangerouslySetInnerHTML={{ __html: `:root{${themeToCssVars(theme)}}` }} />
-        {children}
+        <CartProvider>
+          {children}
+          <ChatWidget storeName={theme.storeName} shippingPolicy={content.shippingPolicy} returnPolicy={content.returnPolicy} />
+        </CartProvider>
       </body>
     </html>
   );

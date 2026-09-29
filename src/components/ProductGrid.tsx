@@ -1,4 +1,5 @@
 import { Product, formatPrice, discountedPrice } from "@/lib/products-types";
+import ImageCarousel from "./ImageCarousel";
 
 export default function ProductGrid({ products }: { products: Product[] }) {
   return (
@@ -36,22 +37,13 @@ export default function ProductGrid({ products }: { products: Product[] }) {
                   {p.offerLabel || `خصم ${p.discountPercent}%`}
                 </div>
               )}
-              <div
-                style={{
-                  height: 220,
-                  background: "var(--color-panel-2)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <svg width="90" height="90" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="38" fill="none" stroke="var(--color-accent)" strokeWidth="2.5" />
-                  <circle cx="50" cy="50" r="28" fill="var(--color-bg)" stroke="rgba(255,255,255,.2)" />
-                  <line x1="50" y1="50" x2="50" y2="30" stroke="var(--color-accent)" strokeWidth="2" />
-                  <line x1="50" y1="50" x2="64" y2="56" stroke="#fff" strokeWidth="2" />
-                </svg>
-              </div>
+              <ImageCarousel
+                images={p.images ?? []}
+                speedMs={p.carouselSpeedMs ?? 3500}
+                transition={p.carouselTransition ?? "fade"}
+                height={220}
+                rounded={0}
+              />
               <div style={{ padding: 20 }}>
                 <div style={{ fontSize: 11, color: "var(--color-accent)", fontWeight: 700, letterSpacing: 1, marginBottom: 6 }}>
                   {p.tag}

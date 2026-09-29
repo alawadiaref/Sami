@@ -22,7 +22,13 @@ type Piece = {
   children: React.ReactNode;
 };
 
-export default function AssemblingWatchHero({ storeName = "METRIQUE" }: { storeName?: string }) {
+export default function AssemblingWatchHero({
+  storeName = "METRIQUE",
+  bgImage,
+}: {
+  storeName?: string;
+  bgImage?: string;
+}) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -199,6 +205,22 @@ export default function AssemblingWatchHero({ storeName = "METRIQUE" }: { storeN
           background: "radial-gradient(ellipse at 50% 35%, var(--color-panel-2), var(--color-bg) 70%)",
         }}
       >
+        {bgImage && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={bgImage}
+            alt=""
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              opacity: 0.35,
+              pointerEvents: "none",
+            }}
+          />
+        )}
         <div style={{ position: "relative", width: 560, height: 560, display: "flex", alignItems: "center", justifyContent: "center" }}>
           {pieces.map((p) => (
             <AssemblingPiece key={p.key} piece={p} progress={scrollYProgress} />

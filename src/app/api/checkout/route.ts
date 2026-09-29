@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getGateway, PaymentProvider } from "@/lib/payments";
 import { addOrder, Order } from "@/lib/orders";
+import { markCartCompleted } from "@/lib/carts";
 
 interface CheckoutBody {
   customerName: string;
@@ -8,6 +9,7 @@ interface CheckoutBody {
   items: { productId: string; name: string; price: number; qty: number }[];
   paymentProvider: PaymentProvider;
   returnUrl: string;
+  cartId?: string;
 }
 
 export async function POST(req: NextRequest) {
@@ -41,6 +43,7 @@ export async function POST(req: NextRequest) {
     status: body.paymentProvider === "bank_transfer" ? "awaiting_bank_transfer" : "awaiting_payment",
   };
   addOrder(order);
+  if (body.cartId) markCartCompleted(body.cartId);
 
   return NextResponse.json({
     orderId,

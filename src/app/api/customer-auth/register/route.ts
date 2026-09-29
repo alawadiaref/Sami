@@ -3,7 +3,7 @@ import { createCustomer, emailTaken } from "@/lib/customers";
 import { createCustomerSessionCookie, CUSTOMER_SESSION_COOKIE_NAME } from "@/lib/customer-auth";
 
 export async function POST(req: NextRequest) {
-  const { name, email, phone, password } = await req.json();
+  const { name, email, phone, password, city, address } = await req.json();
 
   if (!name || !email || !phone || !password) {
     return NextResponse.json({ error: "الرجاء تعبئة كل الحقول" }, { status: 400 });
@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "هذا البريد الإلكتروني مستخدم بالفعل" }, { status: 409 });
   }
 
-  const customer = createCustomer({ name, email, phone, password });
+  const customer = createCustomer({ name, email, phone, password, city, address });
   const res = NextResponse.json({ ok: true, name: customer.name });
   res.cookies.set(CUSTOMER_SESSION_COOKIE_NAME, await createCustomerSessionCookie(customer.id), {
     httpOnly: true,
