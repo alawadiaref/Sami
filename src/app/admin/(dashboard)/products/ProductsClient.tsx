@@ -196,13 +196,18 @@ export default function AdminProductsPage() {
                           </label>
                           <div style={{ display: "flex", gap: 10 }}>
                             <label style={{ fontSize: 12, color: "var(--color-text-muted)", flex: 1 }}>
-                              سرعة التبديل (مللي ثانية)
+                              سرعة تبديل الصور (بالثواني)
                               <input
                                 type="number"
-                                defaultValue={p.carouselSpeedMs ?? 3500}
-                                onBlur={(e) => patchProduct(p.id, { carouselSpeedMs: Number(e.target.value) })}
+                                min={1}
+                                step={0.5}
+                                defaultValue={(p.carouselSpeedMs ?? 3500) / 1000}
+                                onBlur={(e) => patchProduct(p.id, { carouselSpeedMs: Math.max(1, Number(e.target.value)) * 1000 })}
                                 style={inputStyle}
                               />
+                              <div style={{ fontSize: 11, color: "var(--color-text-muted)", marginTop: 4 }}>
+                                مثال: 3.5 يعني تتغير الصورة كل 3.5 ثانية تلقائيًا
+                              </div>
                             </label>
                             <label style={{ fontSize: 12, color: "var(--color-text-muted)", flex: 1 }}>
                               طريقة الانتقال

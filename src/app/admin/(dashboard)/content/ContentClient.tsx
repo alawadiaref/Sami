@@ -134,28 +134,48 @@ export default function ContentClient() {
 
       {/* Homepage carousel */}
       <Section title="شريط الصور بالصفحة الرئيسية">
-        <div style={{ display: "flex", gap: 10, marginBottom: 14, flexWrap: "wrap" }}>
-          <input
-            style={inputStyle}
-            placeholder="اسم الشريط"
-            value={content.homepageCarousel.name}
-            onChange={(e) => setContent({ ...content, homepageCarousel: { ...content.homepageCarousel, name: e.target.value } })}
-          />
-          <input
-            type="number"
-            style={{ ...inputStyle, width: 140 }}
-            placeholder="سرعة التبديل (ms)"
-            value={content.homepageCarousel.speedMs}
-            onChange={(e) => setContent({ ...content, homepageCarousel: { ...content.homepageCarousel, speedMs: Number(e.target.value) } })}
-          />
-          <select
-            style={{ ...inputStyle, width: 140 }}
-            value={content.homepageCarousel.transition}
-            onChange={(e) => setContent({ ...content, homepageCarousel: { ...content.homepageCarousel, transition: e.target.value as "fade" | "slide" } })}
-          >
-            <option value="fade">تلاشي</option>
-            <option value="slide">انزلاق</option>
-          </select>
+        <div style={{ fontSize: 12, color: "var(--color-text-muted)", marginBottom: 14, lineHeight: 1.8 }}>
+          هذا الشريط يعرض صور منتجات تتبدّل تلقائيًا في الصفحة الرئيسية. اختر اسمًا للشريط، وحدد كل كم ثانية تتغير الصورة، وطريقة الانتقال بين الصور.
+        </div>
+        <div style={{ display: "flex", gap: 16, marginBottom: 14, flexWrap: "wrap", alignItems: "flex-end" }}>
+          <label style={{ fontSize: 12, color: "var(--color-text-muted)", flex: 1, minWidth: 160 }}>
+            اسم الشريط
+            <input
+              style={inputStyle}
+              value={content.homepageCarousel.name}
+              onChange={(e) => setContent({ ...content, homepageCarousel: { ...content.homepageCarousel, name: e.target.value } })}
+            />
+          </label>
+          <label style={{ fontSize: 12, color: "var(--color-text-muted)", width: 190 }}>
+            سرعة تبديل الصور (بالثواني)
+            <input
+              type="number"
+              min={1}
+              step={0.5}
+              style={{ ...inputStyle, width: "100%" }}
+              value={content.homepageCarousel.speedMs / 1000}
+              onChange={(e) =>
+                setContent({
+                  ...content,
+                  homepageCarousel: { ...content.homepageCarousel, speedMs: Math.max(1, Number(e.target.value)) * 1000 },
+                })
+              }
+            />
+            <div style={{ fontSize: 11, color: "var(--color-text-muted)", marginTop: 4 }}>
+              مثال: 4 يعني تتغير الصورة كل 4 ثواني تلقائيًا
+            </div>
+          </label>
+          <label style={{ fontSize: 12, color: "var(--color-text-muted)", width: 140 }}>
+            طريقة الانتقال
+            <select
+              style={{ ...inputStyle, width: "100%" }}
+              value={content.homepageCarousel.transition}
+              onChange={(e) => setContent({ ...content, homepageCarousel: { ...content.homepageCarousel, transition: e.target.value as "fade" | "slide" } })}
+            >
+              <option value="fade">تلاشي</option>
+              <option value="slide">انزلاق</option>
+            </select>
+          </label>
         </div>
         <div style={{ fontSize: 12, color: "var(--color-text-muted)", marginBottom: 8 }}>اختر المنتجات التي تظهر في هذا الشريط:</div>
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
