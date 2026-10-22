@@ -77,6 +77,7 @@ export default function AdminLoginPage() {
 
   return (
     <div
+      className="admin-scope"
       style={{
         minHeight: "100vh",
         display: "flex",

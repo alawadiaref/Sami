@@ -7,17 +7,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const admin = await getAdminFromToken(cookieStore.get(SESSION_COOKIE_NAME)?.value);
 
   return (
-    <div
-      className="admin-scope"
-      style={{
-        display: "flex",
-        minHeight: "100vh",
-        background:
-          "radial-gradient(1200px 600px at 15% 0%, rgba(61,92,255,.08), transparent 60%), #080a14",
-      }}
-    >
+    <div className="admin-scope adm-shell">
       <AdminSidebar admin={admin ? { name: admin.name, role: admin.role, permissions: admin.permissions } : null} />
-      <main style={{ flex: 1, padding: "32px 44px" }}>{children}</main>
+      <main className="adm-main">{children}</main>
     </div>
   );
 }

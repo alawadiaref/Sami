@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  --font-body: "Tajawal", sans-serif;
   --color-bg: #0d1120;
   --color-panel: #111731;
   --color-panel-2: #161d3a;
@@ -21,7 +22,7 @@ body {
   margin: 0;
   background: var(--color-bg);
   color: var(--color-text);
-  font-family: var(--font-display);
+  font-family: var(--font-body, var(--font-display));
 }
 
 a {
@@ -47,16 +48,16 @@ a {
 
 .btn-outline {
   background: transparent;
-  border: 1.5px solid rgba(255, 255, 255, 0.5);
-  color: #fff;
+  border: 1.5px solid color-mix(in srgb, var(--color-text) 50%, transparent);
+  color: var(--color-text);
   padding: 14px 36px;
   border-radius: 2px;
   font-size: 14px;
   transition: border-color 0.2s ease, background 0.2s ease;
 }
 .btn-outline:hover {
-  border-color: #fff;
-  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--color-text);
+  background: color-mix(in srgb, var(--color-text) 6%, transparent);
 }
 
 ::-webkit-scrollbar {
@@ -209,4 +210,19 @@ a {
 .admin-scope table {
   border-radius: 16px;
   overflow: hidden;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }

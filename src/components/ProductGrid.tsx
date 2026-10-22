@@ -3,14 +3,14 @@ import ImageCarousel from "./ImageCarousel";
 
 export default function ProductGrid({ products }: { products: Product[] }) {
   return (
-    <div id="products" style={{ padding: "100px 64px" }}>
+    <div id="products" className="mn-products" style={{ padding: "100px 64px" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 50 }}>
         <div style={{ fontSize: 32, fontWeight: 900 }}>الأكثر مبيعًا</div>
         <a href="/store" style={{ fontSize: 14, color: "var(--color-accent)", fontWeight: 500 }}>
           عرض الكل ←
         </a>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 24 }}>
+      <div className="mn-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 24 }}>
         {products.map((p) => {
           const hasOffer = p.offerActive && p.discountPercent;
           return (

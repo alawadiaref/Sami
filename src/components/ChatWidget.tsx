@@ -48,7 +48,7 @@ export default function ChatWidget({
   }
 
   return (
-    <div style={{ position: "fixed", bottom: 24, insetInlineEnd: 24, zIndex: 100 }}>
+    <div className="chat-widget" style={{ position: "fixed", bottom: 24, insetInlineEnd: 24, zIndex: 100 }}>
       {open && (
         <div
           className="glass-panel"

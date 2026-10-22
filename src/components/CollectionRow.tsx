@@ -13,6 +13,7 @@ export default function CollectionRow({
 }) {
   const visual = (
     <div
+      className="mn-row-visual"
       style={{
         flex: 1.2,
         background: image ? undefined : "linear-gradient(150deg, var(--color-panel-2), #0b0f1e)",
@@ -37,7 +38,7 @@ export default function CollectionRow({
   );
 
   const copy = (
-    <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", padding: "0 70px" }}>
+    <div className="mn-row-copy" style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", padding: "0 70px" }}>
       <div style={{ fontSize: 12, letterSpacing: 3, color: "var(--color-accent)", marginBottom: 16 }}>{tag}</div>
       <div style={{ fontSize: 30, fontWeight: 900, lineHeight: 1.5, marginBottom: 20 }}>{title}</div>
       <div style={{ fontSize: 14, color: "var(--color-text-muted)", lineHeight: 1.9, marginBottom: 28 }}>
@@ -50,7 +51,7 @@ export default function CollectionRow({
   );
 
   return (
-    <div style={{ display: "flex", minHeight: 600 }}>
+    <div className={`mn-row${reverse ? " mn-row-rev" : ""}`} style={{ display: "flex", minHeight: 600 }}>
       {reverse ? (
         <>
           {copy}

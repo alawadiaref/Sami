@@ -10,6 +10,7 @@ const SOCIAL_ICON: Record<string, string> = {
 export default function Footer({ storeName, social = [] }: { storeName: string; social?: SocialLink[] }) {
   return (
     <div
+      className="mn-footer"
       style={{
         padding: "50px 64px",
         display: "flex",
@@ -22,7 +23,7 @@ export default function Footer({ storeName, social = [] }: { storeName: string; 
         borderTop: "1px solid var(--color-border)",
       }}
     >
-      <div style={{ fontWeight: 900, fontSize: 20, color: "#fff" }}>{storeName}</div>
+      <div style={{ fontWeight: 900, fontSize: 20, color: "var(--color-text)" }}>{storeName}</div>
       <div style={{ display: "flex", gap: 50, flexWrap: "wrap" }}>
         <a href="/policies/returns">سياسة الاستبدال</a>
         <a href="/policies/shipping">الشحن</a>

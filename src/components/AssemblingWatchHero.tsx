@@ -221,7 +221,7 @@ export default function AssemblingWatchHero({
             }}
           />
         )}
-        <div style={{ position: "relative", width: 560, height: 560, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div className="mn-hero-box" style={{ position: "relative", width: 560, height: 560, display: "flex", alignItems: "center", justifyContent: "center" }}>
           {pieces.map((p) => (
             <AssemblingPiece key={p.key} piece={p} progress={scrollYProgress} />
           ))}
@@ -235,7 +235,7 @@ export default function AssemblingWatchHero({
             transform: "translateY(0)",
           }}
         >
-          <div style={{ fontSize: 36, fontWeight: 900, marginBottom: 22 }}>الوقت، بشكله الأكثر تطورًا</div>
+          <div className="mn-hero-title" style={{ fontSize: 36, fontWeight: 900, marginBottom: 22 }}>الوقت، بشكله الأكثر تطورًا</div>
           <div style={{ display: "flex", gap: 14, justifyContent: "center" }}>
             <a className="btn-primary" href="#products">
               تسوق الآن

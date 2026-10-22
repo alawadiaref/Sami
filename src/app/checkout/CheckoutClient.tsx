@@ -133,6 +133,6 @@ const inputStyle: React.CSSProperties = {
   borderRadius: 6,
   border: "1px solid var(--color-border)",
   background: "var(--color-bg)",
-  color: "#fff",
+  color: "var(--color-text)",
   fontSize: 14,
 };

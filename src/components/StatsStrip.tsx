@@ -8,6 +8,7 @@ const defaultStats = [
 export default function StatsStrip({ stats = defaultStats }: { stats?: { value: string; label: string }[] }) {
   return (
     <div
+      className="mn-stats"
       style={{
         display: "flex",
         justifyContent: "space-around",

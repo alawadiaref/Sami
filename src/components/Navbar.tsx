@@ -3,6 +3,7 @@ import CartLink from "./CartLink";
 export default function Navbar({ storeName }: { storeName: string }) {
   return (
     <div
+      className="mn-nav"
       style={{
         position: "absolute",
         top: 0,
@@ -16,13 +17,13 @@ export default function Navbar({ storeName }: { storeName: string }) {
       }}
     >
       <div style={{ fontSize: 24, fontWeight: 900, letterSpacing: 1 }}>{storeName}</div>
-      <nav style={{ display: "flex", gap: 34, fontSize: 13 }}>
+      <nav className="mn-nav-links" style={{ display: "flex", gap: 34, fontSize: 13 }}>
         <a href="#">الرجالي</a>
         <a href="#">النسائي</a>
         <a href="#">الرياضي</a>
         <a href="#">المتجر</a>
       </nav>
-      <div style={{ display: "flex", gap: 20, fontSize: 14, alignItems: "center" }}>
+      <div className="mn-nav-actions" style={{ display: "flex", gap: 20, fontSize: 14, alignItems: "center" }}>
         <a href="/account">تسجيل الدخول</a>
         <CartLink />
       </div>
